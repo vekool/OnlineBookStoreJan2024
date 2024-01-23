@@ -14,6 +14,12 @@ namespace OnlineBookStore.Controllers
         [HttpPost]
         public IActionResult Create(Book b)
         {
+            //recheck whether everything is ok
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Title", "Some error occurred");
+                return View();
+            }
             return View(); //unimplemented
         }
     }
