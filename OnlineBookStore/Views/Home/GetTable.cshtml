@@ -1,0 +1,20 @@
+﻿<h3>Now printing table</h3>
+<table class="table table-light table-hover" style="width:400px;">
+    @{
+        int num, i, ans;
+        num = ViewBag.num;
+
+        for(i = 1; i <= 10; i++)
+        {
+            ans = num * i;
+            <tr>
+                <td>@num x @i = @ans</td>
+            </tr>
+        }
+
+    }
+</table>
+@* Razor Syntax
+1) Inline expressions begin with @
+2) C# multiline code must be within @{}
+*@
