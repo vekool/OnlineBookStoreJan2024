@@ -5,6 +5,13 @@ namespace OnlineBookStore.Controllers
 {
     public class BookController : Controller
     {
+
+        private readonly OnlineBookStoreContext odb;
+        //framework
+        public BookController(OnlineBookStoreContext o)
+        {
+            odb = o;
+        }
         [HttpGet]
         public IActionResult Create()
         {
@@ -20,7 +27,15 @@ namespace OnlineBookStore.Controllers
                 ModelState.AddModelError("Title", "Some error occurred");
                 return View();
             }
+            odb.Books.Add(b);
+            odb.SaveChanges();
             return View(); //unimplemented
+        }
+        [HttpGet]
+        public IActionResult ListAllBooks()
+        {
+            
+            return View(odb.Books.ToList());
         }
     }
 }
