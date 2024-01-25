@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineBookStore.Models
 {
@@ -6,9 +7,13 @@ namespace OnlineBookStore.Models
     //I must get suggestions (intelisense) on the page as well
     public class Book
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int BookId { get; set; }
         //annotation - Labels
         [Required(ErrorMessage ="Book Title is required")]
-        [MinLength(4, ErrorMessage ="Book title is too short")]
+        //[MinLength(4, ErrorMessage ="Book title is too short")]
+        [StringLength(100, MinimumLength =4, ErrorMessage = "Book title to small or too big")]
         [Display(Name ="Book Title")]
         public string? Title { get; set; }
        

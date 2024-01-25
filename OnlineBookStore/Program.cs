@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using OnlineBookStore.Models;
+using System.Configuration;
+
+
 namespace OnlineBookStore
 {
     public class Program
@@ -9,6 +14,10 @@ namespace OnlineBookStore
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //Add Entity Framework
+            var connstr = builder.Configuration.GetConnectionString("OnlineBookStoreContext");
+            builder.Services.AddDbContext<OnlineBookStoreContext>
+                (options => options.UseSqlServer(connstr));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
