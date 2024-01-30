@@ -10,6 +10,9 @@ namespace OnlineBookStore.Models
         {
         }
         public DbSet<Book> Books { get; set; }
+        public DbSet<WebUser> WebUsers{ get; set; }
+
+        public DbSet<Cartitem> Carts { get; set; }
         /* table names must be plural */
 
         /* This will keep on changing

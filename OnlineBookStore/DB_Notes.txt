@@ -1,0 +1,21 @@
+﻿Features: User registration, login, and role-based access (e.g., admin, customer). - Identity Framework
+(No need to create model - as this is inbuilt)
+
+Functionality: Browsing books, adding them to a cart, and processing orders.
+Adding to cart:
+	Customers: 
+	Carts --> Customer ID, Book Id, AddDateTime
+	Ensure that no more than 10 items may be present in the cart
+	Admin can view all items in everyones cart
+	User can only view his / her own cart
+Orders --> Customer ID, Order ID (PK - Auto), OrderDate 
+            assume that all orders are paid
+OrderItems ---> Order ID, OrderItemID (PK - Auto), Book ID
+
+Missing:
+Payments - multiple options
+Inventory 
+Shipping address (multiple address)
+Mail to customer (order placed)
+
+Security Audit, SEO	
