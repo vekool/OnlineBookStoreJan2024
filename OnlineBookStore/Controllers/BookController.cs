@@ -29,7 +29,7 @@ namespace OnlineBookStore.Controllers
             }
             odb.Books.Add(b);
             odb.SaveChanges();
-            return View(); //unimplemented
+            return RedirectToAction("ListAllBooks");
         }
         [HttpGet]
         public IActionResult ListAllBooks()
@@ -38,6 +38,7 @@ namespace OnlineBookStore.Controllers
             return View(odb.Books.ToList());
         
         }
+        //Book/Delete
         public ActionResult Delete(int? id)
         {
             //check if id is null - error
@@ -47,16 +48,24 @@ namespace OnlineBookStore.Controllers
             }
 
             //check if the book exists - if not then error
-           Book b =  (from b in odb.Books
+           Book bo =  (from b in odb.Books
              where b.BookId == id.Value
-             select b).SingleOrDefault();
+             select b).FirstOrDefault();
+            //SIngleOrDefault
+            //check if there is only a single book -
+            // multiple books - exception
+            // if not found - null 
 
-            if(b == null)
+            //FIrstorDefault
+            //multiple books - get the first one
+            //not found - null (default value)
+
+            if(bo == null)
             {
                 throw new ArgumentException("No book found");
             }
             //Delete the book using remove
-            odb.Books.Remove(b);
+            odb.Books.Remove(bo);
             odb.SaveChanges();
             return RedirectToAction("ListAllBooks");
             
