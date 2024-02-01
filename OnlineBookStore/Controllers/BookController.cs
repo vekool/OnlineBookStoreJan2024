@@ -34,8 +34,32 @@ namespace OnlineBookStore.Controllers
         [HttpGet]
         public IActionResult ListAllBooks()
         {
-            
+
             return View(odb.Books.ToList());
+        
+        }
+        public ActionResult Delete(int? id)
+        {
+            //check if id is null - error
+            if (!id.HasValue)
+            {
+                throw new ArgumentException("No id provided");
+            }
+
+            //check if the book exists - if not then error
+           Book b =  (from b in odb.Books
+             where b.BookId == id.Value
+             select b).SingleOrDefault();
+
+            if(b == null)
+            {
+                throw new ArgumentException("No book found");
+            }
+            //Delete the book using remove
+            odb.Books.Remove(b);
+            odb.SaveChanges();
+            return RedirectToAction("ListAllBooks");
+            
         }
     }
 }
