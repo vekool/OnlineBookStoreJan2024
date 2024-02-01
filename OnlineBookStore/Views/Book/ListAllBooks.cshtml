@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BookId)
+                @* @Html.DisplayNameFor(model => model.BookId) *@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    <a asp-action="Edit" asp-route-id="@item.BookId" asp-asp-controller="Book">Edit  Book</a> |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.BookId }) |
                 <a asp-action="Delete" asp-route-id="@item.BookId" asp-asp-controller="Book">Delete Book</a>
