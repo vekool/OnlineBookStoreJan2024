@@ -1,0 +1,13 @@
+﻿@model OnlineBookStore.Models.Book
+@{
+   
+        ViewData["Title"] = "Details of " + Model.Title;        
+    
+    Layout = "~/Views/Shared/_OnlineBookStoreDefaultLayoutcshtml.cshtml";
+}
+@{
+    Html.RenderPartial("DetailsPartial", Model);
+}
+
+
+

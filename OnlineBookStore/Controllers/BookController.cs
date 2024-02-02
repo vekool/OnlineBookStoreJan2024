@@ -5,82 +5,98 @@ namespace OnlineBookStore.Controllers
 {
     public class BookController : Controller
     {
+        OnlineBookStoreContext odb;
 
-        private readonly OnlineBookStoreContext odb;
-        //framework
         public BookController(OnlineBookStoreContext o)
         {
             odb = o;
         }
+        public IActionResult Index()
+        {
+
+            return View(odb.Books.ToArray());
+        }
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Book());
         }
-
         [HttpPost]
-        public IActionResult Create(Book b)
+        public IActionResult Create([Bind(include:  "Title, Price, PDate, Author")] Book b)
         {
-            //recheck whether everything is ok
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Title", "Some error occurred");
-                return View();
+                odb.Books.Add(b);
+                odb.SaveChanges();
+                return RedirectToAction("Index");
             }
-            odb.Books.Add(b);
-            odb.SaveChanges();
-            return RedirectToAction("ListAllBooks");
+            return View(b);
         }
-        [HttpGet]
-        public IActionResult ListAllBooks()
-        {
 
-            return View(odb.Books.ToList());
-        
-        }
-        //Book/Edit/3
         [HttpGet]
-        public ActionResult Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            //check if id is null - error
             if (!id.HasValue)
             {
-                throw new ArgumentException("No id provided");
+                return NotFound();
             }
-
-            //check if the book exists - if not then error
-            Book bo = (from b in odb.Books
-                       where b.BookId == id.Value
-                       select b).FirstOrDefault();
-            //SIngleOrDefault
-            //check if there is only a single book -
-            // multiple books - exception
-            // if not found - null 
-
-            //FIrstorDefault
-            //multiple books - get the first one
-            //not found - null (default value)
-
-            if (bo == null)
+            Book b = odb.Books.Find(id.Value);
+            if (b == null)
             {
-                throw new ArgumentException("No book found");
+                return NotFound();
             }
-
-            return View(bo);
-
+            return View(b);
+           
         }
         [HttpPost]
-        public ActionResult Edit(Book newbook)
+        public IActionResult Edit(Book b)
         {
-            if (!ModelState.IsValid)
+          
+            Book bo = odb.Books.Find(b.BookId);
+            if (b == null)
             {
-                return View();
+                return NotFound();
             }
-            
-            odb.Update(newbook);
+            odb.Books.Update(b);
             odb.SaveChanges();
-            return RedirectToAction("ListAllBooks");
-            
+            return RedirectToAction("Index");          
+
+        }
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+            Book b = odb.Books.Find(id.Value);
+            if(b == null)
+            {
+                return NotFound();
+            }
+            return View(b);
+        }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+            Book b = odb.Books.Find(id.Value);
+            if (b == null)
+            {
+                return NotFound();
+            }
+            odb.Books.Remove(b);
+            odb.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+        public ActionResult View2()
+        {
+            return View();
         }
     }
 }

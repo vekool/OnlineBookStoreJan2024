@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+.row .err-info{
+    font-size:12px;
+    font-family:Consolas;
+    font-weight:bold;
+}
+
+.obs-form{
+    width:50%;
+    max-width:600px;
+    min-width:500px;
+    padding:20px;
+}

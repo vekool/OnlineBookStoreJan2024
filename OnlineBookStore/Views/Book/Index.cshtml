@@ -1,0 +1,33 @@
+﻿@model IEnumerable<OnlineBookStore.Models.Book>
+@{
+
+    ViewData["Title"] = "List of Books";
+    Layout = "~/Views/Shared/_OnlineBookStoreDefaultLayoutcshtml.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+<p class="mt-2 mb-2">
+    <a asp-controller="Book" asp-action="Create">Create New Book</a>
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        <th>@Html.DisplayNameFor(model => model.Author)</th>
+        <th>Actions</th>
+    </tr>
+    @{
+        foreach(Book b in Model){
+            <tr>
+                <td>@b.Title</td>
+                <td>@b.Author</td>
+                <td>
+                    <a asp-controller="Book" asp-action="Edit" asp-route-id="@b.BookId">Edit</a>
+                    <a asp-controller="Book" asp-action="Delete" asp-route-id="@b.BookId">Delete</a>
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@b.BookId">Details</a>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+
