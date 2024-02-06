@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace OnlineBookStore.Models
 {
     public class WebUser
+        //Model --> Database
+        //ViewModel --> View 
+        //View <---> ViewModel <--> Model <---> Database
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
