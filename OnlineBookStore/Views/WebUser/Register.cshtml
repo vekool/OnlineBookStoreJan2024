@@ -1,0 +1,46 @@
+﻿@model OnlineBookStore.Models.WebUser
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_OnlineBookStoreDefaultLayoutcshtml.cshtml";
+}
+
+<div asp-validation-summary="All"></div>
+<h1>@ViewBag.Title</h1>
+<div class="d-flex flex-column align-items-stretch">
+    <form asp-action="Register" asp-controller="WebUser" method="post" class="obs-form">
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span class="text-danger err-info" asp-validation-for="Name"></span>
+        </div>
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span class="text-danger err-info" asp-validation-for="Email"></span>
+        </div>
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span class="text-danger err-info" asp-validation-for="UserName"></span>
+        </div>
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="PasswordHash"></label>
+            <input asp-for="PasswordHash" class="form-control" />
+            <span class="text-danger err-info" asp-validation-for="PasswordHash"></span>
+        </div>
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="Address"></label>
+            <textarea  asp-for="Address" class="form-control"></textarea>
+            <span class="text-danger err-info" asp-validation-for="Address"></span>
+        </div>
+        <div class="row">
+            <label class="col-form-label col-12" asp-for="Dob"></label>
+            <input asp-for="Dob" class="form-control" />
+            <span class="text-danger err-info" asp-validation-for="Dob"></span>
+        </div>
+        <div class="row">
+            <input type="submit" value="Create User" class="btn btn-dark" />
+        </div>
+    </form>
+</div>
+

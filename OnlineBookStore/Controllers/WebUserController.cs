@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Models;
 using OnlineBookStore.Models.ViewModels;
 
@@ -7,10 +8,38 @@ namespace OnlineBookStore.Controllers
     public class WebUserController : Controller
     {
         OnlineBookStoreContext odb;
-
-        public WebUserController(OnlineBookStoreContext o)
+        UserManager<WebUser> userMan;
+        public WebUserController(OnlineBookStoreContext o, UserManager<WebUser> um)
         {
             odb = o;
+            userMan = um;
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new WebUser());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(WebUser w)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(w);
+            }
+            var result = await userMan.CreateAsync(w, w.PasswordHash);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                foreach(var item in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, item.Description);
+                }
+            }
+            return View(w);
         }
         [HttpGet]
         public IActionResult ChangePw()
@@ -23,7 +52,7 @@ namespace OnlineBookStore.Controllers
                 return NotFound("No User");
             }
             ChangePWVM cpw = new ChangePWVM();
-            cpw.WebUserId = w.WebUserId;
+            cpw.WebUserId = Convert.ToInt32(w.Id);
             return View(cpw);
 
            
@@ -43,21 +72,21 @@ namespace OnlineBookStore.Controllers
             }
             //check if the user exists
             //get user info
-            WebUser w = odb.WebUsers.Where(x => x.WebUserId == cpw.WebUserId).FirstOrDefault();
+            WebUser w = odb.WebUsers.Where(x => x.Id == cpw.WebUserId.ToString()).FirstOrDefault();
             if(w == null)
             {
                 return NotFound("User does not exist");
             }
 
             //Check if old password matches
-            if(cpw.OldPassword != w.Pw)
+            if(cpw.OldPassword != w.PasswordHash)
             {
                 ModelState.AddModelError("OldPassword", "Incorrect Old Password");
                 return View(cpw);
             }
 
             //update the password
-            w.Pw = cpw.NewPassword;
+            w.PasswordHash = cpw.NewPassword;
             //save the changes
             odb.WebUsers.Update(w);
             odb.SaveChanges();

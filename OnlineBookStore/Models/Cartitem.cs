@@ -19,7 +19,7 @@ namespace OnlineBookStore.Models
 
         [Required]
         [ForeignKey("WebUser")]
-        public int WebUserId { get; set; }
+        public string WebUserId { get; set; }
 
         /* these properties will not be present in the database 
          navigation properties*/
