@@ -18,7 +18,16 @@ namespace OnlineBookStore
             var connstr = builder.Configuration.GetConnectionString("OnlineBookStoreContext");
             builder.Services.AddDbContext<OnlineBookStoreContext>
                 (options => options.UseSqlServer(connstr));
-            builder.Services.AddDefaultIdentity<WebUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<OnlineBookStoreContext>();
+            builder.Services.AddDefaultIdentity<WebUser>
+                (options =>
+                {
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
+                    options.User.RequireUniqueEmail = true;
+                    /* add more rules here */
+                }
+                ).AddEntityFrameworkStores<OnlineBookStoreContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

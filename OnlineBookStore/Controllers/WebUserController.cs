@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Models;
 using OnlineBookStore.Models.ViewModels;
@@ -9,15 +10,56 @@ namespace OnlineBookStore.Controllers
     {
         OnlineBookStoreContext odb;
         UserManager<WebUser> userMan;
-        public WebUserController(OnlineBookStoreContext o, UserManager<WebUser> um)
+        SignInManager<WebUser> signInMan;
+        public WebUserController(OnlineBookStoreContext o, UserManager<WebUser> um, SignInManager<WebUser> s)
         {
             odb = o;
             userMan = um;
+            signInMan = s;
         }
         [HttpGet]
         public IActionResult Register()
         {
             return View(new WebUser());
+        }
+
+        [HttpGet]
+       
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new LoginVM());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM lvm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(lvm);
+            }
+            var result = await signInMan.PasswordSignInAsync(lvm.UserName, lvm.Password, lvm.RememberMe, false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Credentials");
+                return View(lvm);
+            }
+
+        }
+        //only allow logged in users to logout
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await signInMan.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+
         }
         [HttpPost]
         public async Task<IActionResult> Register(WebUser w)
@@ -42,6 +84,7 @@ namespace OnlineBookStore.Controllers
             return View(w);
         }
         [HttpGet]
+        [Authorize]
         public IActionResult ChangePw()
         {
             //get the details of the user currently logged in
@@ -58,6 +101,7 @@ namespace OnlineBookStore.Controllers
            
         }
         [HttpPost]
+        [Authorize]
         public IActionResult ChangePW(ChangePWVM cpw)
         {
             if (!ModelState.IsValid)
