@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Models;
 
 namespace OnlineBookStore.Controllers
@@ -7,21 +9,34 @@ namespace OnlineBookStore.Controllers
     {
         OnlineBookStoreContext odb;
 
-        public BookController(OnlineBookStoreContext o)
+          UserManager<WebUser> userMan;
+        SignInManager<WebUser> signInMan;
+        public BookController(OnlineBookStoreContext o, UserManager<WebUser> um, SignInManager<WebUser> s)
         {
             odb = o;
+            userMan = um;
+            signInMan = s;
         }
+        [Authorize]
         public IActionResult Index()
         {
+            if(User.IsInRole("Admin"))
 
-            return View(odb.Books.ToArray());
+                return View(odb.Books.ToArray());
+            else
+            {
+                return View(odb.Books.ToArray());
+                //code to return only books issued to user
+            }
         }
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View(new Book());
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create([Bind(include:  "Title, Price, PDate, Author")] Book b)
         {
             if (ModelState.IsValid)
@@ -34,6 +49,7 @@ namespace OnlineBookStore.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -49,6 +65,7 @@ namespace OnlineBookStore.Controllers
            
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Book b)
         {
           
@@ -77,6 +94,7 @@ namespace OnlineBookStore.Controllers
             return View(b);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int? id)
         {
             if (!id.HasValue)
@@ -93,7 +111,7 @@ namespace OnlineBookStore.Controllers
             return RedirectToAction("Index");
 
         }
-
+        [Authorize]
         public ActionResult View2()
         {
             return View();

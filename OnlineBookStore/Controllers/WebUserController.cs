@@ -22,7 +22,34 @@ namespace OnlineBookStore.Controllers
         {
             return View(new WebUser());
         }
+        public IActionResult ForgotPass()
+        {
+            return View(new ForgotPassVM());
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> ForgotPass(ForgotPassVM fp)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(fp);
+            }
+
+            var user = await userMan.FindByEmailAsync(fp.Email);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+            var token = await userMan.GeneratePasswordResetTokenAsync(user);
+            var passWordResetLink = Url.Action("ResetPassword", "Webuser", new { token, email = user.Email });
+            ViewBag.PLink = passWordResetLink;
+            //send email to user
+            //show mail sent page
+            return View("ForgotPasswordLinkView");
+        }
+        //Anonymus -> 
+        //Normal Users who have logged in --> Amazon (Customer)
         [HttpGet]
        
         public IActionResult Login()
@@ -137,5 +164,7 @@ namespace OnlineBookStore.Controllers
             return RedirectToAction("Index", "Home");
 
         }
+
     }
+    
 }

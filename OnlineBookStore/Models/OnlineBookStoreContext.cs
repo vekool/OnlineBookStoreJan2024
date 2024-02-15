@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnlineBookStore.Models
 {
     //Context - model
-    public class OnlineBookStoreContext:DbContext
+    public class OnlineBookStoreContext:IdentityDbContext<WebUser, IdentityRole, string>
     {
         public OnlineBookStoreContext(DbContextOptions<OnlineBookStoreContext> options)
         : base(options)
