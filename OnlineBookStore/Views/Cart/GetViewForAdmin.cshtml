@@ -1,0 +1,44 @@
+﻿@model IEnumerable<OnlineBookStore.Models.ViewModels.AdminCartVM>
+
+@{
+    ViewData["Title"] = "All Carts";
+    Layout = "~/Views/Shared/_OnlineBookStoreDefaultLayoutcshtml.cshtml";
+}
+
+<h1>GetViewForAdmin</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItemCount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.HiddenFor(x=>item.UserID)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartItemCount)
+            </td>
+            <td>
+               <a asp-action="GetCartItems" asp-controller="Carts" asp-route-uid="@item.UserID" class="btn btn-info">View Books</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

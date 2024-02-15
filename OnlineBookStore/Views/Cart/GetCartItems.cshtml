@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OnlineBookStore.Models.ViewModels.CartItemVM>
+
+@{
+    ViewData["Title"] = "Your Cart";
+    Layout = "~/Views/Shared/_OnlineBookStoreDefaultLayoutcshtml.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+               
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.CartItemID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>d
+               <a asp-controller="Cart" asp-action="Details" asp-route-cartitemId="@item.CartItemID">View Book Details</a> |
+                    <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-cartitemId="@item.CartItemID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

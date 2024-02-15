@@ -64,9 +64,14 @@ namespace OnlineBookStore
 
             app.UseAuthorization();
 
+            app.MapGet("Home/Privacy", async context=>
+            {
+                context.Response.Redirect("/Home/GetTable?num=5");
+            }) ;
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
