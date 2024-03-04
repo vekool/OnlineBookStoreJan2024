@@ -7,7 +7,7 @@
 <div asp-validation-summary="All"  ></div>
 <h1>@ViewBag.Title</h1>
 <div class="d-flex flex-column align-items-stretch">
-    <form asp-action="Create" asp-controller="Book" method="post" class="obs-form">
+    <form asp-action="Create" asp-controller="Book" method="post" class="obs-form" enctype="multipart/form-data">
         <div class="row">
             <label class="col-form-label col-12" asp-for="Title"></label>
             <input asp-for="Title" class="form-control" />
@@ -27,6 +27,10 @@
             <label class="col-form-label col-12" asp-for="PDate"></label>
             <input asp-for="PDate" class="form-control" />
             <span class="text-danger err-info" asp-validation-for="PDate"></span>
+        </div>
+         <div class="row">
+            <label class="col-form-label col-12" asp-for="ImagePath"></label>
+            <input name="uploadedFile" type="file" class="form-input-file" />
         </div>
         <div class="row">
             <input type="submit" value="Create Book" class="btn btn-dark" />

@@ -28,5 +28,8 @@ namespace OnlineBookStore.Models
         [DataType(DataType.Currency)]
         [Range(0, 50000, ErrorMessage ="Price too high or low")]
         public double Price { get; set; }
+
+        //filename
+        public string ImagePath { get; set; }
     }
 }

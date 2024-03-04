@@ -48,9 +48,7 @@ namespace OnlineBookStore
 
             
             var app = builder.Build();
-            //create a scope for them and then use them
-
-           
+            //create a scope for them and then use them       
 
             
             // Configure the HTTP request pipeline.
@@ -104,7 +102,8 @@ namespace OnlineBookStore
                 WebUser w = new WebUser()
                 {
                     UserName = "admin",
-                    Email = "admin@mybookstore.com"
+                    Email = "admin@mybookstore.com",
+                    Address="Nreul",
                 };
 
                 var result = await user.CreateAsync(w, "Admin@123");

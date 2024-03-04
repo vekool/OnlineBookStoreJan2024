@@ -37,10 +37,26 @@ namespace OnlineBookStore.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create([Bind(include:  "Title, Price, PDate, Author")] Book b)
+        public IActionResult Create([Bind(include:  "Title, Price, PDate, Author")] Book b, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
+                if(uploadedFile != null && uploadedFile.Length > 0)
+                {
+                    //C:\Users\Vivek\Downloads\profile.jpg
+                    // --> jsdkfjdhsf83483934hefkdf.jpg
+                    string newFileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
+
+                    //sdpfoisdpf;sd;fljsd;flkjsd;fljs;dlfk;.jpg
+                    //gets the current file name with path
+                    //string fileName = Path.GetFileName(uploadedFile.FileName);
+                    //string imagePath = Directory.GetCurrentDirectory();
+                    string newPath = Directory.GetCurrentDirectory() + "\\images\\" + newFileName;
+                    FileStream fs = new FileStream(newPath, FileMode.Create);
+                    uploadedFile.CopyTo(fs);
+                    b.ImagePath = newFileName;
+
+                }
                 odb.Books.Add(b);
                 odb.SaveChanges();
                 return RedirectToAction("Index");
