@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
 using OnlineBookStore.Models;
 using OnlineBookStore.Models.ViewModels;
+using System.Xml;
 
 namespace OnlineBookStore.Controllers
 {
@@ -18,7 +19,15 @@ namespace OnlineBookStore.Controllers
             obc = o;
             u = um;
         }
-        
+
+
+        public async Task<int> GetItemCount(string userid){
+            var CurrentUser = await u.FindByIdAsync(userid);
+            int count =(from x in obc.Carts
+                       where x.WebUser.Id == CurrentUser.Id.ToString()
+                       select x).Count();
+                return count;
+            }
         public async Task<IActionResult> AddToCart(int? cartItemId)
         {
             if (!cartItemId.HasValue)

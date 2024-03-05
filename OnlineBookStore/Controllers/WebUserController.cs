@@ -71,6 +71,8 @@ namespace OnlineBookStore.Controllers
             var result = await signInMan.PasswordSignInAsync(lvm.UserName, lvm.Password, lvm.RememberMe, false);
             if (result.Succeeded)
             {
+                TempData["cartitemms"] = 0;
+                //some code here
                 return RedirectToAction("Index", "Home");
             }
             else

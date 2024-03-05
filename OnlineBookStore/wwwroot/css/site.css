@@ -13,6 +13,31 @@ html {
   min-height: 100%;
 }
 
+.cart-div {
+    position: relative;
+    display: flex;
+    padding: 10px;
+}
+
+.cart-counter {
+    position: absolute;
+    display: flex;
+    height: 16px;
+    width: 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: rgb(199, 199, 42);
+    color: white;
+    left: 25px;
+    top: 0px;
+}
+
+.my-cart {
+    font-size: 24px;
+}
 body {
   margin-bottom: 60px;
 }
