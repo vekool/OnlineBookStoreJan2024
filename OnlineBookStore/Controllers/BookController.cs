@@ -51,7 +51,7 @@ namespace OnlineBookStore.Controllers
                     //gets the current file name with path
                     //string fileName = Path.GetFileName(uploadedFile.FileName);
                     //string imagePath = Directory.GetCurrentDirectory();
-                    string newPath = Directory.GetCurrentDirectory() + "\\images\\" + newFileName;
+                    string newPath = Directory.GetCurrentDirectory() + "\\wwwroot\\images\\" + newFileName;
                     FileStream fs = new FileStream(newPath, FileMode.Create);
                     uploadedFile.CopyTo(fs);
                     b.ImagePath = newFileName;
