@@ -65,7 +65,7 @@ namespace OnlineBookStore.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -110,7 +110,6 @@ namespace OnlineBookStore.Controllers
             return View(b);
         }
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int? id)
         {
             if (!id.HasValue)
