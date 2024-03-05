@@ -18,7 +18,7 @@ namespace OnlineBookStore.Controllers
             obc = o;
             u = um;
         }
-        [Authorize]
+        
         public async Task<IActionResult> AddToCart(int? cartItemId)
         {
             if (!cartItemId.HasValue)
@@ -46,7 +46,7 @@ namespace OnlineBookStore.Controllers
 
             
         }
-        [Authorize]
+        
         public async Task<IActionResult> RemoveFromCart(int? cartItemId)
         {
             if (!cartItemId.HasValue)
@@ -85,7 +85,7 @@ namespace OnlineBookStore.Controllers
         /// <returns>List of books async</returns>
 
         [HttpGet]
-        [Authorize]
+        
         public async Task<IActionResult> GetCartItems(string? uid = null)
         {
             string userID = "";
@@ -127,7 +127,7 @@ namespace OnlineBookStore.Controllers
 
         }
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        
         public async Task<IActionResult> GetViewForAdmin()
         {
             //projection

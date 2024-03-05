@@ -30,6 +30,6 @@ namespace OnlineBookStore.Models
         public double Price { get; set; }
 
         //filename
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

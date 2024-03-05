@@ -81,7 +81,7 @@ namespace OnlineBookStore.Controllers
 
         }
         //only allow logged in users to logout
-        [Authorize]
+        
         public async Task<IActionResult> Logout()
         {
             await signInMan.SignOutAsync();
@@ -111,7 +111,7 @@ namespace OnlineBookStore.Controllers
             return View(w);
         }
         [HttpGet]
-        [Authorize]
+        
         public IActionResult ChangePw()
         {
             //get the details of the user currently logged in
@@ -128,7 +128,7 @@ namespace OnlineBookStore.Controllers
            
         }
         [HttpPost]
-        [Authorize]
+        
         public IActionResult ChangePW(ChangePWVM cpw)
         {
             if (!ModelState.IsValid)

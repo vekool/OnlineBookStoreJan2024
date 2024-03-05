@@ -17,7 +17,7 @@ namespace OnlineBookStore.Controllers
             userMan = um;
             signInMan = s;
         }
-        [Authorize]
+        
         public IActionResult Index()
         {
             if(User.IsInRole("Admin"))
@@ -30,13 +30,13 @@ namespace OnlineBookStore.Controllers
             }
         }
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        
         public IActionResult Create()
         {
             return View(new Book());
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        
         public IActionResult Create([Bind(include:  "Title, Price, PDate, Author")] Book b, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
@@ -61,7 +61,7 @@ namespace OnlineBookStore.Controllers
                 odb.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(b);
+                return View(b);
         }
 
         [HttpGet]
@@ -127,7 +127,7 @@ namespace OnlineBookStore.Controllers
             return RedirectToAction("Index");
 
         }
-        [Authorize]
+        
         public ActionResult View2()
         {
             return View();
